@@ -1,0 +1,22 @@
+StringBuffer sb=new StringBuffer();
+
+sb.length()
+sb.capacity()
+
+sb.append(12)
+sb.append("sid")
+
+sb.insert(index,String)
+sb.insert(index,Character)
+
+sb.delete(start,end)
+sb.deleteCharAt(10)
+
+sb.replace(start,end,String)
+
+sb.ensureCapacity(64) -> default is 16 characters
+
+sb.toString()
+
+sb.reverse()
+
