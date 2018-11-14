@@ -1,0 +1,25 @@
+String s = "hello world"
+String a = "hello world"
+String b = "hi universe"
+
+s.charAt(4) -> o
+s.indexOf(l) -> 2
+s.lastIndexOf(l) -> 9
+
+s.replace("\\."," ")
+s.replaceAll(""," ")
+s.replaceFirst(""," ")
+
+String arr[] = s.split(",");
+
+s.toLowerCase()
+s.toUpperCase()
+
+char arr[] = s.toCharArray()
+
+String num = valueOf(12)
+String dnum = valueOf(12.12)
+
+a.compareTo(b) -> Compares two strings lexicographically.
+
+
