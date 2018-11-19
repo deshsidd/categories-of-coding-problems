@@ -1,0 +1,28 @@
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+        
+        for (int e=0;e<edges.length;e++) {
+            int a = edges[e][0];
+            int b = edges[e][1];
+            int roota = find(a,map);
+            int rootb = find(b,map);
+            if (roota!=rootb) {
+                map.put(roota,rootb);
+                n--;
+            }
+        }
+        return n;        
+    }
+    
+    private int find(int node, Map<Integer,Integer> map) {
+        if (!map.containsKey(node)) {
+            map.put(node,node);
+            return node;
+        }
+        while (map.get(node)!=node) {
+            node = map.get(node);
+        }
+        return node;
+    }
+}
