@@ -1,0 +1,26 @@
+// NUMBER OF ISLANDS PROBLEM USING DFS
+
+class Solution {
+    public int numIslands(char[][] grid) {
+        int count = 0;
+        for (int r=0; r<grid.length; r++) {
+            for (int c=0; c<grid[0].length; c++) {
+                if (grid[r][c] == '1') {
+                    mergeIsland(r,c,grid);
+                    count+=1;
+                }
+            }
+        }
+        return count;
+    }
+    
+    private void mergeIsland(int r, int c, char[][] grid) {
+        if (grid[r][c] == '1') {
+            grid[r][c] = '0';
+            if (r-1>=0) mergeIsland(r-1,c,grid);
+            if (r+1<grid.length) mergeIsland(r+1,c,grid);
+            if (c-1>=0) mergeIsland(r,c-1,grid);
+            if (c+1<grid[0].length) mergeIsland(r,c+1,grid);    
+        }           
+    }
+}
