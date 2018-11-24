@@ -1,0 +1,100 @@
+// DAG Topological sorting with visited array and curStack 
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // Convert to DAG 
+        Map<Integer,List<Integer>> dag = new HashMap<Integer,List<Integer>>();
+        for (int[]pre : prerequisites) {
+            int a=pre[1];
+            int b=pre[0];
+            if (dag.containsKey(a)) {
+                dag.get(a).add(b);
+            } else {
+                List<Integer> al = new ArrayList<Integer>();
+                al.add(b);
+                dag.put(a,al);
+            }
+        }
+        int[] order = new int[numCourses];
+        Stack<Integer> stack = new Stack<Integer>();
+        boolean [] curStack = new boolean[numCourses];
+        boolean [] visited = new boolean[numCourses];
+        for (int i=0;i<numCourses;i++) {
+            curStack[i]=true;
+            boolean b = dfsTopo(i,stack,curStack,dag,visited);
+            if (b==true) return new int[0];
+            curStack[i]=false;
+        }       
+        for (int i=0;i<numCourses;i++) {
+            order[i]=stack.pop();
+        }
+        return order;
+    }
+    
+    private boolean dfsTopo(int n, Stack<Integer> stack, boolean [] curStack, 
+                            Map<Integer,List<Integer>> dag, boolean [] visited) {
+        if (visited[n]) return false;
+        visited[n]=true;
+        for (int neighbour : dag.getOrDefault(n, new ArrayList<Integer>())) {
+            if (visited[neighbour] && curStack[neighbour]) return true;
+            curStack[neighbour]=true;
+            boolean b = dfsTopo(neighbour, stack, curStack, dag, visited);
+            if (b) return b;
+            curStack[neighbour]=false;          
+        }
+        stack.push(n);
+        return false;            
+    }
+}
+
+// DAG Topological sorting with visited array with 3 states
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // Convert to DAG 
+        Map<Integer,List<Integer>> dag = new HashMap<Integer,List<Integer>>();
+        for (int[]pre : prerequisites) {
+            int a=pre[1];
+            int b=pre[0];
+            if (dag.containsKey(a)) {
+                dag.get(a).add(b);
+            } else {
+                List<Integer> al = new ArrayList<Integer>();
+                al.add(b);
+                dag.put(a,al);
+            }
+        }
+        
+        Stack<Integer> stack = new Stack<Integer>();
+        int visited[] = new int[numCourses]; 
+        // 0->unvisited
+        // 1->visiting
+        // 2->visited
+        for (int i=0;i<numCourses;i++) {
+            if (visited[i]==0) {
+                boolean b = dfsTopo(i,stack,dag,visited);
+                if (b) return new int[0];
+            }
+            
+        }       
+        
+        // Create array solution from stack
+        int[] order = new int[numCourses];
+        for (int i=0;i<numCourses;i++) {
+            order[i]=stack.pop();
+        }
+        return order;
+    }
+    
+    private boolean dfsTopo(int n, Stack<Integer> stack, Map<Integer,List<Integer>> dag, int [] visited) {
+        visited[n]=1; // visiting
+        for (int neighbour : dag.getOrDefault(n, new ArrayList<Integer>())) {
+            if (visited[neighbour]==1) return true; // cycle present
+            if (visited[neighbour]==0) {
+                boolean b = dfsTopo(neighbour, stack, dag, visited);
+                if (b) return b;  
+            }
+        }
+        visited[n]=2;
+        stack.push(n);
+        return false;            
+    }
+}
