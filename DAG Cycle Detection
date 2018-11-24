@@ -1,0 +1,89 @@
+// Detect Cycle using visited array with 3 states
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // Create the dag
+        Map<Integer,Set<Integer>> dag = new HashMap<Integer,Set<Integer>>();
+        for (int p=0; p<prerequisites.length; p++) {
+            int n1 = prerequisites[p][0];
+            int n2 = prerequisites[p][1];
+            if (dag.containsKey(n1)) dag.get(n1).add(n2);
+            else {
+                Set<Integer> neighbours = new HashSet<Integer>();
+                neighbours.add(n2);
+                dag.put(n1,neighbours);
+            }
+        }
+        // 0->unvisited
+        // 1->visiting
+        // 2->visited
+        int visited[] = new int[numCourses]; 
+        
+        for (int i=0;i<numCourses;i++) {
+            if (visited[i]==0) {
+                boolean b = dfs(i, dag, visited);
+                if (b) return false;
+            }
+        }
+        return true;
+    }
+    // is cycle present
+    private boolean dfs(int n, Map<Integer,Set<Integer>> dag, int visited[]) {
+        visited[n]=1; // visiting
+        
+        for (int nbr : dag.getOrDefault(n, new HashSet<Integer>())) {
+            if (visited[nbr]==1) return true;
+            if (visited[nbr]==0) {
+                boolean b = dfs(nbr, dag, visited);
+                if (b) return true;
+            }
+        }
+         visited[n]=2; // visited
+        return false;
+    }
+}
+
+
+
+// Detect cycle using visited array and curStack status array
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer,Set<Integer>> dag = new HashMap<Integer,Set<Integer>>();
+        for (int p=0; p<prerequisites.length; p++) {
+            int n1 = prerequisites[p][0];
+            int n2 = prerequisites[p][1];
+            if (dag.containsKey(n1)) dag.get(n1).add(n2);
+            else {
+                Set<Integer> neighbours = new HashSet<Integer>();
+                neighbours.add(n2);
+                dag.put(n1,neighbours);
+            }
+        }
+        boolean visited[] = new boolean[numCourses];
+        boolean curStack[] = new boolean[numCourses];
+        
+        for (int i=0;i<numCourses;i++) {
+            if (!visited[i]) {
+                curStack[i]=true;
+                boolean b = dfs(i, dag, visited, curStack);
+                if (b==false) return b;
+                curStack[i]=false;
+                // for (int j=0;j<curStack.length;j++) {
+                //     curStack[j]=false;
+                //}
+            }
+        }
+        return true;
+    }
+    
+    private boolean dfs(int node, Map<Integer,Set<Integer>> dag, boolean visited[], boolean curStack[]) {
+        visited[node]=true;
+        for (int neighbour : dag.getOrDefault(node, new HashSet<Integer>())) {
+            if (visited[neighbour] && curStack[neighbour]) return false;
+            curStack[neighbour]=true;
+            boolean b = dfs(neighbour, dag, visited, curStack);
+            if (!b) return b;
+            curStack[neighbour]=false;
+        }
+        return true;        
+    }
+}
