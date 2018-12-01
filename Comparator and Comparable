@@ -1,0 +1,62 @@
+// COMPARATOR FIRST WAY
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(new IntegerComparator());
+        for (int i=0;i<nums.length;i++) {
+            pq.offer(nums[i]);
+        }
+        int ans = 0;
+        for (int i=1;i<=k;i++) {
+            ans=pq.poll();
+        }
+        return ans;
+    }
+    
+    public class IntegerComparator implements Comparator<Integer> {
+        public int compare(Integer a, Integer b) {
+            return b-a;
+        }
+    }
+}
+
+// COMPARATOR SECOND WAY
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Comparator<Integer> integerComparator = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer a, Integer b) {
+                return b-a;
+            }
+        };
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(integerComparator);
+        for (int i=0;i<nums.length;i++) {
+            pq.offer(nums[i]);
+        }
+        int ans = 0;
+        for (int i=1;i<=k;i++) {
+            ans=pq.poll();
+        }
+        return ans;
+    }
+}
+
+// COMPARABLE
+class Student implements Comparable<Student>{  
+  int rollno;  
+  String name;  
+  int age;  
+  Student(int rollno,String name,int age){  
+    this.rollno=rollno;  
+    this.name=name;  
+    this.age=age;  
+  }  
+
+  public int compareTo(Student st){  
+    if(age==st.age)  
+      return 0;  
+    else if(age>st.age)  
+      return 1;  
+    else  
+      return -1;  
+  }  
+}  
