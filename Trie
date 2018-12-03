@@ -1,0 +1,70 @@
+class Trie {
+    char c;
+    boolean isWord;
+    Map<Character,Trie> map;
+    /** Initialize your data structure here. */
+    public Trie() {
+        c=' ';
+        isWord = false;
+        map = new HashMap<Character,Trie>();
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        Trie cur = this;
+        for (int i=0;i<word.length();i++) {
+            char c = word.charAt(i);
+            if (cur.get(c)!=null) {
+                cur = cur.get(c);
+            } else {
+                cur = cur.add(c);
+            }
+        }
+        cur.isWord=true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie cur = this;
+        for (int i=0;i<word.length();i++) {
+            char c = word.charAt(i);
+            if (cur.get(c)==null) return false;
+            else {
+                cur = cur.get(c);
+            }
+        }
+        return cur.isWord;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie cur = this;
+        for (int i=0;i<prefix.length();i++) {
+            char c = prefix.charAt(i);
+            if (cur.get(c)==null) return false;
+            else {
+                cur = cur.get(c);
+            }
+        }
+        return true;
+    }
+    
+    private Trie get(char c) {
+        return map.getOrDefault(c,null);
+    }
+    
+    private Trie add(char c) {
+        Trie node = new Trie();
+        node.c=c;
+        this.map.put(c,node);
+        return node;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
