@@ -1,0 +1,115 @@
+SEGMENT TREE
+------------
+In a segment tree the list of leaf nodes represents the actual array where the main data resides. 
+Root conatins sum of entire array. At each level we divide the array into 2 halves for left and right subtree.
+Leaf nodes contain all values in array.
+Once the Segment Tree is built, its structure cannot be changed. 
+We can update the values of nodes but we cannot change its structure. Segment tree provides two operations:
+Update: To update the element of the array  and reflect the corresponding change in the Segment tree.
+Query: In this operation we can query on an interval or segment and return the answer to the problem (say minimum/maximum/summation in the particular segment).
+
+
+DIJKSTRA's SHORTEST PATH ALGORITHM
+----------------------------------
+One algorithm for finding the shortest path from a starting node to a target node in a weighted graph is Dijkstra’s algorithm.
+One stipulation to using the algorithm is that the graph needs to have a nonnegative weight on every edge.
+
+function Dijkstra(Graph, source):
+       dist[source]  := 0                     // Distance from source to source is set to 0
+       for each vertex v in Graph:            // Initializations
+           if v ≠ source
+               dist[v]  := infinity           // Unknown distance function from source to each node set to infinity
+           add v to Q                         // All nodes initially in Q
+
+      while Q is not empty:                  // The main loop
+          v := vertex in Q with min dist[v]  // In the first run-through, this vertex is the source node
+          remove v from Q 
+
+          for each neighbor u of v:           // where neighbor u has not yet been removed from Q.
+              alt := dist[v] + length(v, u)
+              if alt < dist[u]:               // A shorter path to u has been found
+                  dist[u]  := alt            // Update distance of u 
+
+      return dist[]
+  end function
+  
+  
+A* ALGORITHM
+------------
+A* Search algorithm is one of the best and popular technique used in path-finding and graph traversals.
+What A* Search Algorithm does is that at each step it picks the node according to a value-‘f’ which is a parameter equal to the sum of two other parameters – ‘g’ and ‘h’. At each step it picks the node/cell having the lowest ‘f’, and process that node/cell.
+
+We define ‘g’ and ‘h’ as simply as possible below
+
+g = the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
+h = the estimated movement cost to move from that given square on the grid to the final destination. 
+This is often referred to as the heuristic, which is nothing but a kind of smart guess.
+1) Manhattan Distance –
+
+It is nothing but the sum of absolute values of differences in the goal’s x and y coordinates and the current cell’s x and y coordinates respectively, i.e.,
+ h = abs (current_cell.x – goal.x) + 
+     abs (current_cell.y – goal.y) 
+When to use this heuristic? – When we are allowed to move only in four directions only (right, left, top, bottom)
+
+2) Diagonal Distance-
+
+It is nothing but the maximum of absolute values of differences in the goal’s x and y coordinates and the current cell’s x and y coordinates respectively, i.e.,
+ h = max { abs(current_cell.x – goal.x),
+           abs(current_cell.y – goal.y) } 
+When to use this heuristic? – When we are allowed to move in eight directions only (similar to a move of a King in Chess)
+
+3) As it is clear from its name, it is nothing but the distance between the current cell and the goal cell using the distance formula
+ h = sqrt ( (current_cell.x – goal.x)2 + 
+            (current_cell.y – goal.y)2 ) 
+When to use this heuristic? – When we are allowed to move in any directions.
+
+NOTE : Dijkstra is a special case of A* Search Algorithm, where h = 0 for all nodes.
+
+
+REDBLACK TREE
+-------------
+A red-black tree is a binary search tree with one extra attribute for each node: the colour, which is either red or black. 
+We also need to keep track of the parent of each node, so that a red-black tree's node structure would be:
+red-black tree is a binary search tree which has the following red-black properties:
+Every node is either red or black.
+Every leaf (NULL) is black.
+If a node is red, then both its children are black.
+Every simple path from a node to a descendant leaf contains the same number of black nodes.
+Insertion is somewhat complex and involves a number of cases. 
+Note that we start by inserting the new node, x, in the tree just as we would for any other binary tree, using the tree_insert function. 
+This new node is labelled red, and possibly destroys the red-black property. 
+The main loop moves up the tree, restoring the red-black property.
+
+AVL TREE
+--------
+An AVL tree is a binary search tree which has the following properties:
+The sub-trees of every node differ in height by at most one.
+Every sub-tree is an AVL tree.
+As with the red-black tree, insertion is somewhat complex and involves a number of cases. 
+Implementations of AVL tree insertion may be found in many textbooks: they rely on adding an extra attribute, the balance factor to each node. 
+This factor indicates whether the tree is left-heavy (the height of the left sub-tree is 1 greater than the right sub-tree), balanced (both sub-trees are the same height) or right-heavy (the height of the right sub-tree is 1 greater than the left sub-tree).
+If the balance would be destroyed by an insertion, a rotation is performed to correct the balance.
+
+SPLAY TREE
+----------
+Splay trees are self-adjusting binary search trees that reduces the number of operations required to access recently accessed nodes. 
+It achieves this property by bringing recently accessed nodes closer to the root of the tree.
+To bring the recently accessed node closer to the tree root, a splay tree uses tree rotations. There are six types of tree rotations, three of which are symmetric to the other three. These are as follows:
+
+Left and right rotations
+Zig-zig left-left and zig-zig right-right rotations
+Zig-zag left-right and zig-zag right-left rotations
+http://yaikhom.com/2014/05/12/understanding-splay-tree-rotations.html
+
+P/NP
+----
+___________________________________________________________
+| Problem Type | Verifiable in P time | Solvable in P time | Increasing Difficulty
+___________________________________________________________|           |
+| P            |        Yes           |        Yes         |           |
+| NP           |        Yes           |     Yes or No *    |           |
+| NP-Complete  |        Yes           |      Unknown       |           |
+| NP-Hard      |     Yes or No **     |      Unknown ***   |           |
+____________________________________________________________           V
+
+
